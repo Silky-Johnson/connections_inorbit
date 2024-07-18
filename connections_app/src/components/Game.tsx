@@ -3,7 +3,7 @@ import { ANSWER_SHEET } from "../lib/data";
 import Card from "./Card";
 import Button from "./Button";
 import Mistake from "./Mistake";
-// import { shuffleWords } from "../lib/utils";
+import Lost from "./Modals/Lost";
 
 let selectedAnswers: any[] = [];
 
@@ -11,6 +11,8 @@ const Game = () => {
   const [words, setWords] = useState(ANSWER_SHEET);
   const [cardKey, setCardKey] = useState(0);
   const [mistakes, setMistakes] = useState(4);
+  const [isGameOver, setGameOver] = useState(true);
+  const [victory, setVictory] = useState(true);
 
   /* Shuffles the words currently used in game.
    * Moves words from the front half of the array to the
@@ -94,10 +96,16 @@ const Game = () => {
     } else {
       setMistakes(mistakes - 1);
     }
+
+    if (mistakes === 0) {
+      setGameOver(true);
+      setVictory(false);
+    }
   };
 
   return (
     <>
+      {isGameOver && victory ? null : <Lost></Lost>}
       <div className="grid-wrapper">
         {words.map((word) => (
           <Card
